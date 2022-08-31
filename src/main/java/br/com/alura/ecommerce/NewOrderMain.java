@@ -14,7 +14,7 @@ public class NewOrderMain {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         var producer = new KafkaProducer<String, String>(properties());
-        for(var i = 0; i < 100; i++){
+        for(var i = 0; i < 10; i++){
             var key = UUID.randomUUID().toString();
             var value = "ID1313, 37.00, 1212";
             var record = new ProducerRecord<>("ECOMMERCE_NEWORDER", key, value);
