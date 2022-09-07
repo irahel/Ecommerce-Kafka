@@ -9,7 +9,7 @@ public class NewOrderMain {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException, IOException {
         try (var orderDispatcher = new KafkaDispatcher<Order>()) {
-            try (var emailDispatcher = new KafkaDispatcher<String>()) {
+            try (var emailDispatcher = new KafkaDispatcher<Email>()) {
                 for(var i = 0; i < 10; i++){
                     var userID = UUID.randomUUID().toString();
                     var orderID = UUID.randomUUID().toString();
@@ -19,7 +19,8 @@ public class NewOrderMain {
                     
                     orderDispatcher.send("ECOMMERCE_NEWORDER", userID, order);
 
-                    var email = "Thank you for your order! We are processing your order!";            
+                    var email = new Email("New order processing", "Thank you for your order! We are processing your order!");
+                    //var email = "Thank you for your order! We are processing your order!";         
                     emailDispatcher.send("ECOMMERCE_SENDEMAIL", userID, email);
                 }
             }
