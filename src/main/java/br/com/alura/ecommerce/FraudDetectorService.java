@@ -1,5 +1,7 @@
 package br.com.alura.ecommerce;
 
+import java.util.Map;
+
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 public class FraudDetectorService 
@@ -10,7 +12,8 @@ public class FraudDetectorService
         var service = new KafkaService<Order>(FraudDetectorService.class.getSimpleName(),
         "ECOMMERCE_NEWORDER",
         fraudDetectorService::parse,
-        Order.class);
+        Order.class,
+        Map.of());
         service.run( ); 
     }
     
