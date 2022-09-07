@@ -7,7 +7,7 @@ public class FraudDetectorService
     public static void main(String[] args) throws InterruptedException {
 
         var fraudDetectorService = new FraudDetectorService();
-        var service = new KafkaService(FraudDetectorService.class.getSimpleName(),
+        var service = new KafkaService<Order>(FraudDetectorService.class.getSimpleName(),
         "ECOMMERCE_NEWORDER",
         fraudDetectorService::parse,
         Order.class);

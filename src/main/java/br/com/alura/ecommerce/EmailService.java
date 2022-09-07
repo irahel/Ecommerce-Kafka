@@ -6,7 +6,7 @@ public class EmailService
 {
     public static void main(String[] args){
         var emailService = new EmailService(); 
-        var service =  new KafkaService(EmailService.class.getSimpleName(), 
+        var service =  new KafkaService<Email>(EmailService.class.getSimpleName(), 
         "ECOMMERCE_SENDEMAIL", 
         emailService::parse,
         Email.class); 
