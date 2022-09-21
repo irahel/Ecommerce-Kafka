@@ -3,4 +3,4 @@ A project to learn the use of Kafka, where it simulates an ecommerce service, wi
 
 The project follows the architecture:
 
-<img src="https://raw.githubusercontent.com/irahel/Ecommerce-Kafka-AluraEx/8d5a48c63a82c304d4377fe6955333b23a76b066/arch.svg">
+<img width = "100%" src="https://github.com/irahel/Ecommerce-Kafka-AluraEx/blob/main/arch1.png?raw=true">
