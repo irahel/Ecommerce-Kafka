@@ -13,7 +13,7 @@ public class NewOrderMain {
                 for(var i = 0; i < 10; i++){
                     var userID = UUID.randomUUID().toString();
                     var orderID = UUID.randomUUID().toString();
-                    var value = new BigDecimal(Math.random() * 5000 +1);                
+                    var value = BigDecimal.valueOf(Math.random() * 5000 + 1);
                     var order = new Order(userID, orderID, value);
                     
                     
