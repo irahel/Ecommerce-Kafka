@@ -5,8 +5,8 @@ The project follows the architecture:
 
 <img width = "100%" src="https://github.com/irahel/Ecommerce-Kafka-AluraEx/blob/main/arch1.png?raw=true">
 
-<div alignItems="end">
-<img width = "15%" src="http://ForTheBadge.com/images/badges/made-with-java.svg">
-<img width = "15%" src="https://forthebadge.com/images/badges/works-on-my-machine.svg">
+<div align="end">
+<img height="30em" src="http://ForTheBadge.com/images/badges/made-with-java.svg">
+<img height="30em" src="https://forthebadge.com/images/badges/works-on-my-machine.svg">
 
 </div>
