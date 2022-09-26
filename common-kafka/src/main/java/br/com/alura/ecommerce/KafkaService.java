@@ -31,7 +31,6 @@ class KafkaService<T> {
     }
 
     static void main(String[] args) {
-        
     }
 
     void run() {
@@ -43,10 +42,8 @@ class KafkaService<T> {
                 for(var record : records){
                     try {
                         parse.consume(record);
-                    } catch (ExecutionException e) {
+                    } catch (Exception e) {
                         //so far, just log the exception
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }           
@@ -56,15 +53,12 @@ class KafkaService<T> {
  
     private Properties getProperties(Class<T> type, String groupId, Map<String, String> overrideProperties) {
         var properties = new Properties();
-
         properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, GsonDeserializer.class.getName());        
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1");
-
         properties.setProperty(GsonDeserializer.TYPE_CONFIG, type.getName());
-
         properties.putAll(overrideProperties);
         return properties;
     }
