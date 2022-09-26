@@ -11,4 +11,21 @@ public class Order {
         this.orderID = orderID;
         this.value = value;
     }
+
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "userID='" + userID + '\'' +
+                ", orderID='" + orderID + '\'' +
+                ", value=" + value +
+                '}';
+    }
 }

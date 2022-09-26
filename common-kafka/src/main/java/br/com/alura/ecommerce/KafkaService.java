@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -26,7 +27,7 @@ class KafkaService<T> {
 
     private KafkaService(ConsumerFunction<T> parse, String groupId, Class<T> type, Map<String, String> properties) {
         this.parse = parse;
-        this.consumer = new KafkaConsumer<String, T>(getProperties(type, groupId, properties));   
+        this.consumer = new KafkaConsumer<>(getProperties(type, groupId, properties));
     }
 
     static void main(String[] args) {
@@ -40,7 +41,14 @@ class KafkaService<T> {
             if(!records.isEmpty()){
                 System.out.println("I did find "+ records.count() +" records");                            
                 for(var record : records){
-                    parse.consume(record); 
+                    try {
+                        parse.consume(record);
+                    } catch (ExecutionException e) {
+                        //so far, just log the exception
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }           
             }
         } 
