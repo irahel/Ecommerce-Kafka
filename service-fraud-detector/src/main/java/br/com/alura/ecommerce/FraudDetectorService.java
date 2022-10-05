@@ -36,10 +36,10 @@ public class FraudDetectorService
         var order = record.value();
         if (isFraud(order)){
             System.out.println("Order is a fraud!!!");
-            orderKafkaDispatcher.send("ECOMMERCE_ORDERREJECTED", order.getUserID(), order);
+            orderKafkaDispatcher.send("ECOMMERCE_ORDERREJECTED", order.getEmail(), order);
         }else{
             System.out.println("Order approved successfully: " +order);
-            orderKafkaDispatcher.send("ECOMMERCE_ORDERAPPROVED", order.getUserID(), order);
+            orderKafkaDispatcher.send("ECOMMERCE_ORDERAPPROVED", order.getEmail(), order);
         }
         System.out.println("\n----------------------");
 

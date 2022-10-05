@@ -10,7 +10,7 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 
 public class LogService 
 {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         var logService = new LogService();
         var service = new KafkaService<>(LogService.class.getSimpleName(),
                 Pattern.compile("ECOMMERCE.*"),
