@@ -17,12 +17,12 @@ class KafkaService<T> {
 
     KafkaService(String groupId, String topic, ConsumerFunction<T> parse, Class<T> type, Map<String, String> properties) {
         this(parse, groupId, type, properties);
-        consumer.subscribe(Collections.singletonList(topic));        
+        consumer.subscribe(Collections.singletonList(topic));
     }
 
     KafkaService(String groupId, Pattern topic, ConsumerFunction<T> parse, Class<T> type, Map<String, String> properties) {
         this(parse, groupId, type, properties);
-        consumer.subscribe(topic);        
+        consumer.subscribe(topic);
     }
 
     private KafkaService(ConsumerFunction<T> parse, String groupId, Class<T> type, Map<String, String> properties) {
@@ -34,28 +34,28 @@ class KafkaService<T> {
     }
 
     void run() {
-        while(true) {            
+        while (true) {
             var records = consumer.poll(Duration.ofMillis(100));
-            
-            if(!records.isEmpty()){
-                System.out.println("I did find "+ records.count() +" records");                            
-                for(var record : records){
+
+            if (!records.isEmpty()) {
+                System.out.println("I did find " + records.count() + " records");
+                for (var record : records) {
                     try {
                         parse.consume(record);
                     } catch (Exception e) {
                         //so far, just log the exception
                         e.printStackTrace();
                     }
-                }           
+                }
             }
-        } 
+        }
     }
- 
+
     private Properties getProperties(Class<T> type, String groupId, Map<String, String> overrideProperties) {
         var properties = new Properties();
         properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, GsonDeserializer.class.getName());        
+        properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, GsonDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1");
         properties.setProperty(GsonDeserializer.TYPE_CONFIG, type.getName());

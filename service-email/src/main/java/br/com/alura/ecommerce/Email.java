@@ -10,6 +10,6 @@ public class Email {
 
     @Override
     public String toString() {
-        return "["+subject+"]: "+body;
+        return "[" + subject + "]: " + body;
     }
 }

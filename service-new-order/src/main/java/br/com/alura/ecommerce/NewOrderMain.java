@@ -7,11 +7,11 @@ import java.util.concurrent.ExecutionException;
 
 public class NewOrderMain {
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException, IOException {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         try (var orderDispatcher = new KafkaDispatcher<Order>()) {
             try (var emailDispatcher = new KafkaDispatcher<Email>()) {
                 var email = Math.random() + "@email.com";
-                for(var i = 0; i < 10; i++){
+                for (var i = 0; i < 10; i++) {
 
                     var orderID = UUID.randomUUID().toString();
                     var value = BigDecimal.valueOf(Math.random() * 5000 + 1);
