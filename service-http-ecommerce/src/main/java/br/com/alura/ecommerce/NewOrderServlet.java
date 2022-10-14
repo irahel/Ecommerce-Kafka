@@ -15,6 +15,7 @@ public class NewOrderServlet extends HttpServlet {
 
     @Override
     public void destroy() {
+        super.destroy();
         orderDispatcher.close();
         emailDispatcher.close();
     }
