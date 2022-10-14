@@ -20,7 +20,6 @@ public class GenerateAllReportsServlet extends HttpServlet {
         try {
             batchDispatcher.send("SEND_MESSAGE_TO_ALL_USERS", "USER_GENERATE_READING_REPORT", "USER_GENERATE_READING_REPORT");
 
-
             System.out.println("Sent generate report to all users!");
             resp.setStatus(200);
             resp.getWriter().println("Report requests generated");
