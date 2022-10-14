@@ -20,25 +20,29 @@ public class FraudDetectorService {
         service.run();
     }
 
-    private void parse(ConsumerRecord<String, Order> record) throws ExecutionException, InterruptedException {
+    private void parse(ConsumerRecord<String, Message<Order>> record) throws ExecutionException, InterruptedException {
         System.out.println("\n----------------------");
         System.out.println("Processing new order, checking for fraud");
         System.out.println(record.key());
         System.out.println(record.value());
         System.out.println(record.partition());
         System.out.println(record.offset());
+
+        var message = record.value();
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        var order = record.value();
+        var order = message.getPayload();
         if (isFraud(order)) {
             System.out.println("Order is a fraud!!!");
-            orderKafkaDispatcher.send("ECOMMERCE_ORDERREJECTED", order.getEmail(), order);
+            orderKafkaDispatcher.send("ECOMMERCE_ORDERREJECTED", order.getEmail(), order,
+                    message.getId().continueWith(FraudDetectorService.class.getSimpleName()));
         } else {
             System.out.println("Order approved successfully: " + order);
-            orderKafkaDispatcher.send("ECOMMERCE_ORDERAPPROVED", order.getEmail(), order);
+            orderKafkaDispatcher.send("ECOMMERCE_ORDERAPPROVED", order.getEmail(), order,
+                    message.getId().continueWith(FraudDetectorService.class.getSimpleName()));
         }
         System.out.println("\n----------------------");
 
