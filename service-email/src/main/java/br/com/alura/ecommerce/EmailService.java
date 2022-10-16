@@ -1,11 +1,12 @@
 package br.com.alura.ecommerce;
 
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 public class EmailService {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         var emailService = new EmailService();
         var service = new KafkaService<>(EmailService.class.getSimpleName(),
                 "ECOMMERCE_SENDEMAIL",
