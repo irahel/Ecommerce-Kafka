@@ -1,7 +1,9 @@
-package br.com.alura.ecommerce;
+package br.com.alura.ecommerce.consumer;
 
 import java.util.Map;
 
+import br.com.alura.ecommerce.Message;
+import br.com.alura.ecommerce.MessageAdapter;
 import org.apache.kafka.common.serialization.Deserializer;
 
 import com.google.gson.Gson;

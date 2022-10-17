@@ -1,6 +1,7 @@
 package br.com.alura.ecommerce;
 
-import java.io.IOException;
+import br.com.alura.ecommerce.dispatcher.KafkaDispatcher;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -15,12 +16,12 @@ public class NewOrderMain {
 
                     var orderID = UUID.randomUUID().toString();
                     var value = BigDecimal.valueOf(Math.random() * 5000 + 1);
-
+                    var id = new CorrelationId(NewOrderMain.class.getSimpleName());
                     var order = new Order(orderID, value, email);
-                    orderDispatcher.send("ECOMMERCE_NEWORDER", email, order);
+                    orderDispatcher.send("ECOMMERCE_NEWORDER", email, order, id);
 
                     var emailCode = new Email("New order processing", "Thank you for your order! We are processing your order!");
-                    emailDispatcher.send("ECOMMERCE_SENDEMAIL", email, emailCode);
+                    emailDispatcher.send("ECOMMERCE_SENDEMAIL", email, emailCode, id);
                 }
             }
         }        

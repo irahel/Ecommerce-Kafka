@@ -3,6 +3,7 @@ package br.com.alura.ecommerce;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import br.com.alura.ecommerce.consumer.KafkaService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 public class EmailService {
