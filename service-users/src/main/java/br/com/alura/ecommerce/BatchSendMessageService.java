@@ -38,7 +38,7 @@ public class BatchSendMessageService {
     }
 
     private final KafkaDispatcher<User> userDispatcher = new KafkaDispatcher<>();
-    private void parse(ConsumerRecord<String, Message<String>> record) throws SQLException, ExecutionException, InterruptedException {
+    private void parse(ConsumerRecord<String, Message<String>> record) throws SQLException{
         System.out.println("\n----------------------");
         System.out.println("Processing new batch");
         var message = record.value();
