@@ -33,7 +33,7 @@ public class KafkaDispatcher<T> implements Closeable {
         future.get();
     }
 
-    Future<RecordMetadata> sendAsync(String topic, String key, T payload, CorrelationId id) {
+    public Future<RecordMetadata> sendAsync(String topic, String key, T payload, CorrelationId id) {
         var value = new Message<>(id.continueWith("_" +topic), payload);
         var record = new ProducerRecord<>(topic, key, value);
         Callback callback = (data, ex) -> {
