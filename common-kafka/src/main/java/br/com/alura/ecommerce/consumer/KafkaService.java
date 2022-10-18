@@ -66,7 +66,7 @@ public class KafkaService<T> {
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, GsonDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1");
-        properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "largest");
+        properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
         properties.putAll(overrideProperties);
         return properties;
     }
