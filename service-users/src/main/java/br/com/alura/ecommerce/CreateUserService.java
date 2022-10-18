@@ -2,6 +2,7 @@ package br.com.alura.ecommerce;
 
 import br.com.alura.ecommerce.consumer.ConsumerService;
 import br.com.alura.ecommerce.consumer.ServiceRunner;
+import br.com.alura.ecommerce.database.LocalDatabase;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import java.sql.Connection;
@@ -13,16 +14,11 @@ import java.util.UUID;
 public class CreateUserService implements ConsumerService<Order> {
 
     private static final int THREADS = 1;
-    private final Connection connection;
+    private final LocalDatabase database;
 
-    private CreateUserService() throws SQLException {
-        String url = "jdbc:sqlite:target/users_database.db";
-        connection = DriverManager.getConnection(url);
-        try {
-            connection.createStatement().execute("create table Users(" + "uuid varchar(200) primary key," + "email varchar(200))");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+    CreateUserService() throws SQLException {
+        this.database = new LocalDatabase("users_database");
+        this.database.createIfNoExists("create table Users(" + "uuid varchar(200) primary key," + "email varchar(200))");
     }
 
     public static void main(String[] args) {
@@ -51,19 +47,14 @@ public class CreateUserService implements ConsumerService<Order> {
     }
 
     private void insertNewUser(String email) throws SQLException {
-        var insert = connection.prepareStatement("insert into Users(uuid, email) " + "values (?, ?)");
-
-        insert.setString(1, UUID.randomUUID().toString());
-        insert.setString(2, email);
-        insert.execute();
-
+        var uuid = UUID.randomUUID().toString();
+        this.database.update("insert into Users(uuid, email) " + "values (?, ?)", uuid, email);
         System.out.println("User uuid e " + email + " --> added!");
     }
 
     private boolean isNewUser(String email) throws SQLException {
-        var exists = connection.prepareStatement("select uuid from Users " + "where email = ? limit 1");
-        exists.setString(1, email);
-        var results = exists.executeQuery();
+        var results = database.query("select uuid from Users " + "where email = ? limit 1", email);
+
         return !results.next();
     }
 
