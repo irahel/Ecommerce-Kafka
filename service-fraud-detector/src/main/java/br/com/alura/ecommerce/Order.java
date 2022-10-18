@@ -19,11 +19,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderID='" + orderID + '\'' +
-                ", value=" + value +
-                ", email='" + email + '\'' +
-                '}';
+        return "Order{" + "orderID='" + orderID + '\'' + ", value=" + value + ", email='" + email + '\'' + '}';
     }
 
     public String getEmail() {

@@ -1,18 +1,18 @@
 package br.com.alura.ecommerce.consumer;
 
-import java.time.Duration;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.ExecutionException;
-import java.util.regex.Pattern;
-
 import br.com.alura.ecommerce.Message;
 import br.com.alura.ecommerce.dispatcher.GsonSerializer;
 import br.com.alura.ecommerce.dispatcher.KafkaDispatcher;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+
+import java.time.Duration;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.ExecutionException;
+import java.util.regex.Pattern;
 
 public class KafkaService<T> {
     private final KafkaConsumer<String, Message<T>> consumer;
@@ -30,14 +30,14 @@ public class KafkaService<T> {
 
     private KafkaService(ConsumerFunction<T> parse, String groupId, Map<String, String> properties) {
         this.parse = parse;
-        this.consumer = new KafkaConsumer<>(getProperties( groupId, properties));
+        this.consumer = new KafkaConsumer<>(getProperties(groupId, properties));
     }
 
     static void main(String[] args) {
     }
 
     public void run() throws ExecutionException, InterruptedException {
-        try(var deadLetter = new KafkaDispatcher<>()){
+        try (var deadLetter = new KafkaDispatcher<>()) {
             while (true) {
                 var records = consumer.poll(Duration.ofMillis(100));
 

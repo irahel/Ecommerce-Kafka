@@ -8,11 +8,11 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import java.util.concurrent.ExecutionException;
 
 public class EmailNewOrderService implements ConsumerService<Order> {
-    private final KafkaDispatcher<Email> emailDispatcher = new KafkaDispatcher<>();
     private static final int THREADS = 1;
+    private final KafkaDispatcher<Email> emailDispatcher = new KafkaDispatcher<>();
 
     public static void main(String[] args) {
-        new ServiceRunner(EmailNewOrderService::new).start(THREADS);
+        new ServiceRunner<>(EmailNewOrderService::new).start(THREADS);
     }
 
     @Override
@@ -34,8 +34,7 @@ public class EmailNewOrderService implements ConsumerService<Order> {
         var id = record.value().getId();
         var emailCode = new Email("New order processing", "Thank you for your order! We are processing your order!");
 
-        emailDispatcher.send("ECOMMERCE_SENDEMAIL",
-                order.getEmail(), emailCode, id.continueWith(EmailNewOrderService.class.getSimpleName()));
+        emailDispatcher.send("ECOMMERCE_SENDEMAIL", order.getEmail(), emailCode, id.continueWith(EmailNewOrderService.class.getSimpleName()));
         System.out.println("\n----------------------");
     }
 }

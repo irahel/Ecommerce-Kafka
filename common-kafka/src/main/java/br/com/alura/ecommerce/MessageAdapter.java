@@ -9,8 +9,8 @@ public class MessageAdapter implements JsonSerializer<Message>, JsonDeserializer
     public JsonElement serialize(Message message, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject obj = new JsonObject();
         obj.addProperty("type", message.getPayload().getClass().getName());
-        obj.add("payload", context.serialize( message.getPayload()));
-        obj.add("correlationId", context.serialize( message.getId()));
+        obj.add("payload", context.serialize(message.getPayload()));
+        obj.add("correlationId", context.serialize(message.getId()));
         return obj;
     }
 

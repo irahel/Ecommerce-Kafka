@@ -11,12 +11,10 @@ public class CorrelationId {
 
     @Override
     public String toString() {
-        return "CorrelationId{" +
-                "id='" + id + '\'' +
-                '}';
+        return "CorrelationId{" + "id='" + id + '\'' + '}';
     }
 
     public CorrelationId continueWith(String title) {
-        return new CorrelationId(id + "-" +title);
+        return new CorrelationId(id + "-" + title);
     }
 }

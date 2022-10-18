@@ -17,8 +17,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "uuid='" + uuid + '\'' +
-                '}';
+        return "User{" + "uuid='" + uuid + '\'' + '}';
     }
 }

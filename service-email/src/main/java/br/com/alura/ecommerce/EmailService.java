@@ -8,13 +8,14 @@ public class EmailService implements ConsumerService<Email> {
     private static final int THREADS = 5;
 
     public static void main(String[] args) {
-        new ServiceRunner(EmailService::new).start(THREADS);
+        new ServiceRunner<>(EmailService::new).start(THREADS);
     }
 
-    public String getConsumerGroup(){
+    public String getConsumerGroup() {
         return EmailService.class.getSimpleName();
     }
-    public String getTopic(){
+
+    public String getTopic() {
         return "ECOMMERCE_SENDEMAIL";
     }
 

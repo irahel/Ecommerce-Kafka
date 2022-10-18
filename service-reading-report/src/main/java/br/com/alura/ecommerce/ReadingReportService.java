@@ -13,7 +13,7 @@ public class ReadingReportService implements ConsumerService<User> {
     private static final Path SOURCE = new File("src/main/resources/report.txt").toPath();
 
     public static void main(String[] args) {
-        new ServiceRunner(ReadingReportService::new).start(THREADS);
+        new ServiceRunner<>(ReadingReportService::new).start(THREADS);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ReadingReportService implements ConsumerService<User> {
 
     public void parse(ConsumerRecord<String, Message<User>> record) throws IOException {
         System.out.println("\n----------------------");
-        System.out.println("Processing report for " +record.value());
+        System.out.println("Processing report for " + record.value());
 
         var message = record.value();
         var user = message.getPayload();

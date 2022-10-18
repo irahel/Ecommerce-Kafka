@@ -18,6 +18,6 @@ public class NewOrderMain {
                 var order = new Order(orderID, value, email);
                 orderDispatcher.send("ECOMMERCE_NEWORDER", email, order, id);
             }
-        }        
+        }
     }
 }

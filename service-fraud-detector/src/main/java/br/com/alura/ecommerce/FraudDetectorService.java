@@ -14,10 +14,7 @@ public class FraudDetectorService {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
 
         var fraudDetectorService = new FraudDetectorService();
-        var service = new KafkaService<>(FraudDetectorService.class.getSimpleName(),
-                "ECOMMERCE_NEWORDER",
-                fraudDetectorService::parse,
-                Map.of());
+        var service = new KafkaService<>(FraudDetectorService.class.getSimpleName(), "ECOMMERCE_NEWORDER", fraudDetectorService::parse, Map.of());
         service.run();
     }
 
@@ -38,12 +35,10 @@ public class FraudDetectorService {
         var order = message.getPayload();
         if (isFraud(order)) {
             System.out.println("Order is a fraud!!!");
-            orderKafkaDispatcher.send("ECOMMERCE_ORDERREJECTED", order.getEmail(), order,
-                    message.getId().continueWith(FraudDetectorService.class.getSimpleName()));
+            orderKafkaDispatcher.send("ECOMMERCE_ORDERREJECTED", order.getEmail(), order, message.getId().continueWith(FraudDetectorService.class.getSimpleName()));
         } else {
             System.out.println("Order approved successfully: " + order);
-            orderKafkaDispatcher.send("ECOMMERCE_ORDERAPPROVED", order.getEmail(), order,
-                    message.getId().continueWith(FraudDetectorService.class.getSimpleName()));
+            orderKafkaDispatcher.send("ECOMMERCE_ORDERAPPROVED", order.getEmail(), order, message.getId().continueWith(FraudDetectorService.class.getSimpleName()));
         }
         System.out.println("\n----------------------");
 
