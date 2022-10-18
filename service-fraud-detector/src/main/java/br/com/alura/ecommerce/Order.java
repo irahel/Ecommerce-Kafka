@@ -13,6 +13,10 @@ public class Order {
         this.email = email;
     }
 
+    public String getOrderID() {
+        return orderID;
+    }
+
     public BigDecimal getValue() {
         return value;
     }
