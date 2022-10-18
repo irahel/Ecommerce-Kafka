@@ -34,4 +34,8 @@ public class LocalDatabase {
     public ResultSet query(String statement, String... params) throws SQLException {
         return prepare(statement, params).executeQuery();
     }
+
+    public void close() throws SQLException {
+        connection.close();
+    }
 }

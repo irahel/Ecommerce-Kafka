@@ -11,15 +11,13 @@ import java.sql.SQLException;
 import java.util.concurrent.ExecutionException;
 
 public class FraudDetectorService implements ConsumerService<Order> {
-    private final KafkaDispatcher<Order> orderKafkaDispatcher = new KafkaDispatcher<>();
-
     private static final int THREADS = 1;
-
+    private final KafkaDispatcher<Order> orderKafkaDispatcher = new KafkaDispatcher<>();
     private final LocalDatabase database;
 
     FraudDetectorService() throws SQLException {
         this.database = new LocalDatabase("frauds_database");
-        this.database.createIfNoExists("create table Orders(" + "uuid varchar(200) primary key," + "is_fraud boolean)");
+        this.database.createIfNoExists("create table Orders(uuid varchar(200) primary key, is_fraud boolean)");
     }
 
     public static void main(String[] args) {
@@ -47,8 +45,8 @@ public class FraudDetectorService implements ConsumerService<Order> {
         var message = record.value();
         var order = message.getPayload();
 
-        if (wasProcessed(order)){
-            System.out.println("Order " +order.getOrderID() +" was already processed");
+        if (wasProcessed(order)) {
+            System.out.println("Order " + order.getOrderID() + " was already processed");
             return;
         }
         try {

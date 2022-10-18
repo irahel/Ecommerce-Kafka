@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public class NewOrderServlet extends HttpServlet {
 
@@ -23,21 +22,23 @@ public class NewOrderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         try {
             var email = req.getParameter("email");
-
-            var orderID = UUID.randomUUID().toString();
+            var orderID = req.getParameter("uuid");
             var value = new BigDecimal(req.getParameter("value"));
-
             var order = new Order(orderID, value, email);
-            orderDispatcher.send("ECOMMERCE_NEWORDER", email, order, new CorrelationId(NewOrderServlet.class.getSimpleName()));
-
-            System.out.println("New order sent successfuly! --<" + orderID + ">");
-
-            resp.setStatus(200);
-            resp.getWriter().println("New order sent successfuly! --<" + orderID + ">--<" + email + ">--<" + value + ">");
+            try (var database = new OrdersDatabase()) {
+                if (database.saveNew(order)) {
+                    orderDispatcher.send("ECOMMERCE_NEWORDER", email, order, new CorrelationId(NewOrderServlet.class.getSimpleName()));
+                    System.out.println("New order sent successfully! --<" + orderID + ">");
+                    resp.setStatus(200);
+                    resp.getWriter().println("New order sent successfully! --<" + orderID + ">--<" + email + ">--<" + value + ">");
+                } else {
+                    System.out.println("Old order received! --<" + orderID + ">");
+                    resp.setStatus(200);
+                    resp.getWriter().println("Old order received! --<" + orderID + ">--<" + email + ">--<" + value + ">");
+                }
+            }
         } catch (Exception e) {
             throw new ServletException(e);
         }
-
-
     }
 }
